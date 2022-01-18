@@ -17,13 +17,13 @@ using namespace cv;
 using namespace std;
 
 void my_mouse_callback(int event, int x, int y, int flags, void* param);
-int reading(string Filename, string imagename, double wl, double hl, double wr, double hr);
+void reading(string Filename, string imagename, double wl, double hl, double wr, double hr);
 void file();
 
 int main(int argc, char** argv) {
 	// устанавливаем русскую локализацию для консоли
 	setlocale(LC_ALL, "Russian");
-	file();
+	//file();
 
 	const char* imagename = "WAYTOHOME.jpg";
 	const char* traectory_file = "coordinat.txt";
@@ -31,12 +31,24 @@ int main(int argc, char** argv) {
 	double hl = 37.828428;
 	double wr = 55.622020;
 	double hr = 37.873735;
-	reading("coordinat.txt", "WAYTOHOME.jpg", wl, hl, wr, hr);
-	Mat image = imread("WAYTOHOME.jpg");
-	namedWindow("modernGoogle");
-	setMouseCallback("modernGoogle", my_mouse_callback, &image);
-	while (true) {
-		imshow("modernGoogle", image);
+
+	string check;
+	cout << "read or enter"<<endl;
+	cin >> check;
+	if (check == "read") {
+		reading("coordinat.txt", "WAYTOHOME.jpg", wl, hl, wr, hr);
+	}
+	else if (check == "enter") {
+		Mat image = imread("WAYTOHOME.jpg");
+		namedWindow("modernGoogle");
+		setMouseCallback("modernGoogle", my_mouse_callback, &image);
+		while (true) {
+			imshow("modernGoogle", image);
+			waitKey(30);
+		}
+	}
+	else {
+		cout << "Ошибка ввода" << endl;
 		waitKey(30);
 	}
 	return(0);
@@ -74,7 +86,7 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param)
 	}
 }
 
-int reading(string Filename, string imagename, double wl, double hl, double wr, double hr)
+void reading(string Filename, string imagename, double wl, double hl, double wr, double hr)
 {
 	string File = Filename;
 	int x, y, xm, ym;
@@ -102,7 +114,6 @@ int reading(string Filename, string imagename, double wl, double hl, double wr, 
 		{
 			f >> tt >> xm >> ym;
 
-			//cout << "Метка времени: " << t << " x: " << x << " y: " << y << endl;
 			shirota = koef_mashtabW * (img.size().width - x) + wr;
 			dolgota = koef_mashtabH * (img.size().height - y) + hl;
 			cout << "Метка времени: " << t << " широта: " << shirota << " долгота: " << dolgota << endl;
