@@ -76,7 +76,12 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param)
 	{
 		Mat* pImage = (Mat*)param;
 		Mat image = *pImage;
-		circle(image, Point(x, y), 5, Scalar(255, 0, 0), FILLED, 8, 0);
+		Point trackBox;
+		trackBox = Point(x, y);
+
+		ellipse(image, Point(x, y), Size(20, 17), -50, 70, 200, Scalar(255), 40, 8, 0);
+
+		//circle(image, Point(x, y), 5, Scalar(255, 0, 0), FILLED, 8, 0);
 
 		ofstream file;
 		file.open("coordinat.txt", ios_base::app);
@@ -118,7 +123,8 @@ void reading(string Filename, string imagename, double wl, double hl, double wr,
 			dolgota = koef_mashtabH * (img.size().height - y) + hl;
 			cout << "Метка времени: " << t << " широта: " << shirota << " долгота: " << dolgota << endl;
 
-			circle(img, Point(x, y), 5, Scalar(0, 0, 255), FILLED, 8, 0);
+			ellipse(img, Point(x, y), Size(20, 17), -50, 70, 200, Scalar(255), 40, 8, 0);
+
 			x = xm;
 			y = ym;
 			imshow("route", img);
